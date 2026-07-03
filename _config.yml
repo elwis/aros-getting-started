@@ -1,0 +1,28 @@
+title: AROS Getting Started
+description: >-
+  The things you missed — a beginner-friendly guide to building,
+  running, and developing for AROS x86_64 (ABIv11).
+remote_theme: just-the-docs/just-the-docs
+plugins:
+  - jekyll-remote-theme
+
+url: "https://elwis.github.io"
+baseurl: "/aros-getting-started"
+
+# just-the-docs settings
+search_enabled: true
+heading_anchors: true
+color_scheme: dark
+
+aux_links:
+  "AROS source (deadwood2)":
+    - "https://github.com/deadwood2/AROS"
+  "aros-tools examples":
+    - "https://github.com/elwis/aros-tools"
+
+footer_content: >-
+  Written and verified step-by-step on real hardware and real builds.
+  If a step doesn't work, please open an issue.
+
+# Sort navigation by nav_order in each page's front matter
+nav_sort: case_insensitive
