@@ -13,10 +13,12 @@ What this guide will cover:
 - VM settings that actually work
 - Networking: why the adapter type matters
   - Use **Intel PRO/1000 MT Desktop (82540EM)** with **NAT**
-  - Inside AROS One: select **e100.device**, leave everything on DHCP
-  - Why PCnet-FAST III does *not* work ("Message too long")
+  - Inside AROS One: select **e100.0device**, leave everything on DHCP
+  - I did not get PCnet-FAST III to work but should with the right driver ("Message too long")
 - Getting files in and out of the VM
-  - In: building an ISO with `genisoimage -R`
-  - Out: running an FTP server on the host with `pyftpdlib`
+  - USB Pendrive is probably the easiest
+  - Samba should work (didn't try myself)
+  - In: building an ISO with `genisoimage -R` is easy on Linux Host, set as optical drive in Virtualbox
+  - FTP on the host with `pyftpdlib` and a simple client on AROS
 
 <!-- TODO: write full guide, verify on a fresh VM -->

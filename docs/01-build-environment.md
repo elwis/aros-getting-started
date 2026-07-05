@@ -156,6 +156,36 @@ Verify it worked:
 x86_64-aros-gcc --version
 ```
 
+Always build against --sysroot
+
+Any time you compile a program against this AROS build (whether from the
+command line, a Makefile, or an IDE's compiler flags), point it at the
+generated sysroot explicitly:
+
+```gcc --sysroot=/path/to/AROS/bin/.../AROS -o myprog myprog.c```
+
+Skipping --sysroot will cause the compiler to silently pick up your host
+Linux headers instead of AROS's, which leads to confusing build errors or
+binaries that look fine but crash on AROS.
+
+Save yourself the typing: wrap the compiler in a script
+
+Typing --sysroot=... on every single compile command gets old fast, and
+it's easy to forget. Instead, create a small wrapper script that bakes the
+sysroot path in for you, and call that instead of gcc directly:
+
+```#!/bin/sh
+exec /path/to/toolchain-core-x86_64/x86_64-aros-gcc --sysroot=/path/to/cross-x86_64-aros/Development "$@"```
+
+Save this as e.g. x86_64-aros-gcc somewhere on your PATH (or reference it
+by full path from your Makefile), chmod +x it, and use it exactly like a
+normal compiler from then on:
+
+```x86_64-aros-gcc -o myprog myprog.c```
+
+This also composes well with your Makefiles — set CC = x86_64-aros-gcc once
+and every build rule picks up the correct sysroot automatically, with no risk
+of a rule accidentally omitting the flag.
 If that prints a gcc version string, your toolchain is live.
 
 ## Step 5 — Boot AROS on your desktop
@@ -203,7 +233,7 @@ The two you'll use daily:
 - **`C/`** — copy a compiled binary into this directory and it's
   runnable by name from the AROS Shell, just like on a classic Amiga.
 
-## A 60-second AROS Shell primer
+## A 10-second AROS Shell primer
 
 Open a Shell inside AROS and you'll notice it's not bash. The most
 disorienting difference for a Linux user: **you change volume by
