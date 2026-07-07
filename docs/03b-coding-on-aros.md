@@ -33,6 +33,7 @@ No cross-compiler, no `--sysroot` juggling needed for this — that's only neces
 
 The Vim available for AROS x86_64 (`vim_9.2-x86_64-aros-v11.lha`, by Ola Söder / sodero) is **not a straight upstream port** — it's a from-scratch integration with a full MUI GUI on top of the Vim core. Worth knowing before you go looking for behavior that exists in "normal" Vim but might not be wired up the same way here.
 
+
 ### No `:terminal`, no `+job`
 
 Checking `:version` inside this build confirms it plainly:
@@ -43,28 +44,6 @@ Checking `:version` inside this build confirms it plainly:
 ```
 
 Both compiled out. This means the usual trick of splitting a shell into the bottom half of the editor (`:terminal`) simply isn't available in this build — not a configuration issue, just not compiled in. If you're coming from a Linux/tmux-heavy workflow and reflexively reach for a split terminal instead of Alt-Tabbing (which doesn't really exist as a concept on AROS/Amiga-style window management anyway), this is the one habit that has to change.
-
-### The workaround: `:!`
-
-Without a live terminal buffer, the practical substitute is running commands through Vim's shell-escape and reading the result back:
-
-```vim
-:!gcc % -o %:r
-```
-Compiles the current file (`%`) to a binary with the same name minus the extension (`%:r`).
-
-```vim
-:!gcc % -o %:r && %:r
-```
-Compiles **and** runs it in one go — press any key afterward to return to the buffer.
-
-Bind it to a function key in your `.vimrc` for a one-tap compile-and-run loop:
-
-```vim
-nnoremap <F5> :!gcc % -o %:r && %:r<CR>
-```
-
-It's not a live split-pane shell, but it removes the actual friction (leaving the editor, finding the file again) without needing a feature that isn't there.
 
 
 ## Summary
